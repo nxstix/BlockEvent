@@ -1,0 +1,11 @@
+MONGO_URI=mongodb+srv://adminBE:BlockEventAdmin55555@blockevent.swcprgq.mongodb.net/?retryWrites=true&w=majority
+NEXTAUTH_SECRET=cXRaNGleqXFjs4831nJFG8F7eZZl0Jdt7Dt42AtfgGY=
+NEXTAUTH_URL=http://localhost:3000/
+
+API_URL = "https://eth-sepolia.g.alchemy.com/v2/e_-YaL8gmwwok_l8WSmLUcZIRAMSyLfc"
+ 
+PRIVATE_KEY = "6066ee9e2ae9ca3df272ca11d2363259bea21639a4eebb8bf7104e56346b6761"
+
+PUBLIC_ADDRESS = "0xc08DbB5C09Eab748F1F487F5A080FcfDD833D858"
+
+NEXT_PUBLIC_CONTRACT_ADDRESS = "0x9501deA6bA2fEE9F3F8bb7509cE7977DE68581a2"
