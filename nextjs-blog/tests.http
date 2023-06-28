@@ -1,0 +1,82 @@
+GET http://localhost:3000/api/users
+
+###
+GET http://localhost:3000/api/users/646605e1c69d6f7957e704aa
+
+###
+POST http://localhost:3000/api/users
+Content-Type: application/json
+
+{
+    "email": "example@example.com",
+    "password": "kaaarl",
+    "firstName": "hannes",
+    "lastName": "meister",
+    "birthdate": "2023-06-15T19:30:00.000Z"
+}
+
+//post with error in validation(email)
+###
+POST http://localhost:3000/api/users
+Content-Type: application/json
+
+{
+    "email": "juri@email.de",
+    "password": "kaaarl",
+    "firstName": "hannes",
+    "lastName": "meister",
+    "birthdate": 27
+}
+
+
+###
+PUT http://localhost:3000/api/users/64720a0fc79eb9455d385932
+Content-Type: application/json
+
+{
+    "id" : "64720a0fc79eb9455d385932",
+    "walletAddress": "fghjklö"
+}
+
+###
+DELETE http://localhost:3000/api/users/6466324080e9a2f7970a4974
+
+
+
+
+
+### 
+GET http://localhost:3000/api/events
+
+###
+POST http://localhost:3000/api/events
+Content-Type: application/json
+
+{
+    "title": "Starlight Express",
+    "description": "Kein anderes Musical verbindet Generationen so, wie STARLIGHT EXPRESS. Seit sensationellen 34 Jahren begeistert das Meisterwerk von Andrew Lloyd Webber schon Alt und Jung und das weltweit einmalig nur in Bochum.",
+    "location": "Stadionring 24.D - 44791 Bochum",
+    "date": "2022-05-11T20:00:00.000Z",
+    "duration": 2,
+    "price": 60.50,
+    "maxPaxEvent": 2000
+}
+
+###
+GET http://localhost:3000/api/events/647d1dff1ab1cc9c8c4b5ea9
+
+###
+PUT http://localhost:3000/api/events/6469eab9717057e6c64f849e
+Content-Type: application/json
+
+{
+    "id" : 10,
+    "maxPaxEvent": 1000,
+    "date": "3022-05-13T22:00:00.000Z"
+}
+
+###
+GET http://localhost:3000/api/events/6469eab9717057e6c64f849e
+
+###
+DELETE http://localhost:3000/api/events/6466328780e9a2f7970a4981

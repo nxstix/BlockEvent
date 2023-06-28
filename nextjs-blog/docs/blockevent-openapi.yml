@@ -1,0 +1,414 @@
+openapi: 3.0.0
+info:
+  title: Blockevent-Backend API
+  description: This is an API for a Blockevent backend
+  version: 0.1.9
+tags:
+  - name: Users
+    description: Operations for User endpoints
+  - name: Events
+    description: Operations for Event endpoints
+servers:
+  - url: http://localhost:3000
+    description: Optional server description, e.g. Main (production) server
+paths:
+  /api/users:
+    get:
+      tags:
+        - Users
+      description: List with all users
+      security:
+        - nextAuth: []
+      responses:
+        '200':    # status code
+          
+          content:
+            application/json:
+              schema: 
+                type: array
+                items: 
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                    firstName:
+                      type: string
+                    lastName:
+                      type: string
+                    birthdate:
+                      type: string
+                    isAdministrator:
+                      type: Boolean
+                    isEventmanager:
+                      type: Boolean
+                example:
+                  [
+                    {
+                      email: example@example.com,
+                      firstName: hannes,
+                      lastName: meister,
+                      birthdate: 21.08.1991,
+                      isAdministrator: false,
+                      isEventmanager: false,
+                    },
+                    {
+                      email: wasget@siedasan.com,
+                      firstName: Wasget,
+                      lastName: Siedasan,
+                      birthdate: 10.10.1990,
+                      isAdministrator: false,
+                      isEventmanager: false,
+                    },
+                  ]
+        '400':
+          description: Failed to get users
+    post:
+      tags:
+        - Users
+      description: Add a new user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                birthdate:
+                  type: string
+            example:
+              {
+                email: example@example.com,
+                password: xxxxxxxxxxx,
+                firstName: hannes,
+                lastName: meister,
+                birthdate: 21.08.1991,
+              }
+      responses:
+        '200':
+          description: User was created
+        '400':
+          description: Failed to post new user
+  /api/users/{userID}:
+    get:
+      tags:
+        - Users    
+      description:
+        Gets user by userID
+      security:
+        - nextAuth: []
+      parameters:
+        - in: path
+          name: userID
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the user to get
+      responses:
+        '200':
+          description: User was found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: integer;
+                  email: string;
+                  firstName: string;
+                  lastName: string;
+                  birthdate: string;
+                  isAdministrator: Boolean;
+                  isEventmanager: Boolean;
+                  createdAt: string;
+                example:
+                  {
+                    email: example@example.com,
+                    firstName: hannes,
+                    lastName: meister,
+                    birthdate: 21.08.1991,
+                    isAdministrator: false,
+                    isEventmanager: false,
+                  }
+        '400':
+          description: user doesn't exist.
+    put:
+      tags:
+        - Users    
+      description:
+        Update user by userID
+      security:
+        - nextAuth: []
+      parameters:
+        - in: path
+          name: userID
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the user to get
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id: number;
+                firstName: string;
+                lastName: string;
+                birthdate: string;
+              example:
+                {
+                  id: 6466324080e9a2f7970a4974,
+                  firstName: hannes,
+                  lastName: meister,
+                  birthdate: 21.08.1991,
+                }
+      responses:
+        '200':
+          description: User was updated
+        '400':
+          description: Failed to update user
+    delete:
+      tags:
+        - Users    
+      description: Deletes user by userID
+      security:
+        - nextAuth: []
+      parameters:
+        - in: path
+          name: userID
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the user to get
+      responses:
+        '200':
+          description: User was deleted
+        '400':
+          description: Failed to delete user
+
+  # -------------------------------------------------
+  /api/events:
+    get:
+      tags:
+        - Events
+      description: List with all events
+      responses:
+        '200':    # status code
+          
+          content:
+            application/json:
+              schema: 
+                type: array
+                items: 
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                    description:
+                      type: string
+                    location: 
+                      type: string
+                    date: 
+                      type: date
+                    duration: 
+                      type: number
+                    price:
+                      type: number
+                    image:
+                      type: string
+                    maxPaxEvent:
+                      type: number
+                    attendees:
+                      type: string
+                example:
+                  [
+                    {
+                      title: "Tanz der Vampire - The musical in Stuttgart",
+                      description: "The Stuttgart audience is delighted: Count von Krolock once again invites them to the ball.",
+                      location: "Plieningerstr. 109, 70567 STUTTGART",
+                      date: 2023-06-15T19:30:00.000Z,
+                      duration: 2,
+                      price: 20,
+                      image: "base64"
+                    },
+                    {
+                      title: "The Music of Harry Potter - Live in Concert",
+                      description: "Experience the film music of Harry Potter live!",
+                      location: "AG-Weser-Straße 1, 28237 Bremen",
+                      date: 2023-07-10T20:00:00.000Z,
+                      duration: 2,
+                      price: 40,
+                      image: "base64"
+                    },
+                  ]
+        '400':
+          description: Failed to get events
+    post:
+      tags:
+        - Events
+      description: Add a new event
+      security:
+        - nextAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                location: 
+                  type: string
+                date: 
+                  type: date
+                duration: 
+                  type: number
+                price:
+                  type: number
+                image:
+                  type: string
+                maxPaxEvent:
+                  type: number
+                attendees:
+                  type: string
+              example:
+                {
+                  title: "Tanz der Vampire - The musical in Stuttgart",
+                  description: "The Stuttgart audience is delighted: Count von Krolock once again invites them to the ball.",
+                  location: "Plieningerstr. 109, 70567 STUTTGART",
+                  date: 2023-06-15T19:30:00.000Z,
+                  duration: 2,
+                  price: 20,
+                  image: "base64"
+                }
+      responses:
+        '200':
+          description: Event was created
+        '400':
+          description: Failed to post new event
+  /api/events/{eventID}:
+    get:
+      tags:
+        - Events    
+      description:
+        Gets event by eventID
+      parameters:
+        - in: path
+          name: eventID
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the event to get
+      responses:
+        '200':
+          description: Event was found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  title:
+                  type: string
+                  description:
+                    type: string
+                  location: 
+                    type: string
+                  date: 
+                    type: date
+                  duration: 
+                    type: number
+                  price:
+                    type: number
+                  image:
+                    type: string
+                  maxPaxEvent:
+                    type: number
+                  attendees:
+                    type: string
+                example:
+                  {
+                    title: "Tanz der Vampire - The musical in Stuttgart",
+                    description: "The Stuttgart audience is delighted: Count von Krolock once again invites them to the ball.",
+                    location: "Plieningerstr. 109, 70567 STUTTGART",
+                    date: 2023-06-15T19:30:00.000Z,
+                    duration: 2,
+                    price: 20,
+                    image: "base64"
+                  }
+        '400':
+          description: event doesn't exist.
+    put:
+      tags:
+        - Events    
+      description:
+        Update event by eventID
+      security:
+        - nextAuth: []
+      parameters:
+        - in: path
+          name: eventID
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the event to get
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                location: 
+                  type: string
+                date: 
+                  type: date
+                duration: 
+                  type: number
+                price:
+                  type: number
+                image:
+                  type: string
+                maxPaxEvent:
+                  type: number
+                attendees:
+                  type: string
+              example:
+                {
+                  id: 6469eab9717057e6c64f849e,
+                  maxPaxEvent: 1000,
+                  date: 3022-05-13T22:00:00.000Z
+                }
+      responses:
+        '200':
+          description: Event was updated
+        '400':
+          description: Failed to update event
+    delete:
+      tags:
+        - Events    
+      description: Deletes event by eventID
+      security:
+        - nextAuth: []
+      parameters:
+        - in: path
+          name: eventID
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the event to get
+      responses:
+        '200':
+          description: event was deleted
+        '400':
+          description: Failed to delete event
