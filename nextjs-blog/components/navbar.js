@@ -9,7 +9,9 @@ import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
 import { Dropdown } from 'react-bootstrap';
-import { useAccount } from 'wagmi'
+import { useAccount } from 'wagmi';
+import profilePic from './images/user.png';
+import managmentPic from './images/folder-management.png';
 
 import { Web3Button } from '@web3modal/react';
 import { useWeb3ModalTheme } from '@web3modal/react';
@@ -26,7 +28,7 @@ const Header = () => {
 
   async function fetchAdress(address) {
     if (session) {
-      const response = await fetch(`${process.env.VERCEL_URL}/api/users/${session.session.user._id}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/${session.session.user._id}`, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -59,7 +61,7 @@ const Header = () => {
 
   const fetchDropdownOptions = async (searchQuery) => {
     try {
-      const response = await fetch(`${process.env.VERCEL_URL}/api/events?search=${searchQuery}`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/events?search=${searchQuery}`);
       const eventData = await response.json();
       const filteredOptions = eventData
         .filter((event) => event.title.toLowerCase().startsWith(searchQuery.toLowerCase()))
@@ -91,7 +93,7 @@ const Header = () => {
       dynamicDropdown =
         <Dropdown>
           <Dropdown.Toggle size="sm" variant="secondary" id="dropdown-basic">
-            Management
+            <img src={managmentPic.src} width="25" className="d-inline-block align-top" alt="managmentPic" style={{ paddingRight: '0.3rem'}}/>
           </Dropdown.Toggle>
           <Dropdown.Menu>
             <Dropdown.Item href="/eventManagement">
@@ -164,7 +166,7 @@ const Header = () => {
               <>
                 <Link href="/profile">
                   <Button size="sm" variant="outline-secondary" style={{ marginRight: '10px' }}>
-                    Profile
+                    <img src={profilePic.src} width="20" className="d-inline-block align-top" alt="profilePic" style={{ opacity: 0.5 }} />
                   </Button>
                 </Link>
                 <Link href="/userTickets">

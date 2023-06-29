@@ -40,7 +40,7 @@ export default function Home({ events, sortList }) {
 
 export async function getServerSideProps() {
   try {
-    const response = await fetch(`${process.env.VERCEL_URL}/api/events`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/events`);
     if (!response.ok) {
       throw new Error("Failed to fetch events");
     }
