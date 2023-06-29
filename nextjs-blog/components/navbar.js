@@ -59,7 +59,7 @@ const Header = () => {
 
   const fetchDropdownOptions = async (searchQuery) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/events?search=${searchQuery}`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/events?search=${searchQuery}`);
       const eventData = await response.json();
       const filteredOptions = eventData
         .filter((event) => event.title.toLowerCase().startsWith(searchQuery.toLowerCase()))
