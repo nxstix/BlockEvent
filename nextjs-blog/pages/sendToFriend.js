@@ -76,7 +76,7 @@ export default function senToFriend() {
 
   const fetchDropdownOptions = async (searchQuery) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/users?search=${searchQuery}`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users?search=${searchQuery}`);
       const eventData = await response.json();
       const filteredOptions = eventData
         .filter((user) => user.email.toLowerCase().startsWith(searchQuery.toLowerCase()))
