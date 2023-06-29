@@ -11,7 +11,7 @@ import bcrypt from "bcryptjs"
 export async function getServerSideProps(context) {
     const session = await getSession(context)
     try {
-        const response = await fetch("http://localhost:3000/api/users");
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users`);
         if (!response.ok) {
             console.log(await response.json());
             throw new Error("Failed to fetch users");
