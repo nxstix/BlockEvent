@@ -48,7 +48,7 @@ export default function Profile({ user }) {
         }
 
         try {
-            const response = await fetch(`http://localhost:3000/api/users/${user._id}`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/${user._id}`, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -74,7 +74,7 @@ export default function Profile({ user }) {
     }
 
     async function onDelete(userid) {
-        const response = await fetch(`http://localhost:3000/api/users/${userid}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/${userid}`, {
             headers: {
                 'Content-Type': 'application/json',
             },
