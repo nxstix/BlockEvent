@@ -26,7 +26,7 @@ const Header = () => {
 
   async function fetchAdress(address) {
     if (session) {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/${session.session.user._id}`, {
+      const response = await fetch(`${process.env.VERCEL_URL}/api/users/${session.session.user._id}`, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -59,7 +59,7 @@ const Header = () => {
 
   const fetchDropdownOptions = async (searchQuery) => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/events?search=${searchQuery}`);
+      const response = await fetch(`${process.env.VERCEL_URL}/api/events?search=${searchQuery}`);
       const eventData = await response.json();
       const filteredOptions = eventData
         .filter((event) => event.title.toLowerCase().startsWith(searchQuery.toLowerCase()))

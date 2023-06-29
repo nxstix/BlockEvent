@@ -53,7 +53,7 @@ function CreateEvent() {
         try {
             if (session) {
 
-                const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/events`, {
+                const response = await fetch(`${process.env.VERCEL_URL}/api/events`, {
                     headers: {
                         'Content-Type': 'application/json',
                     },

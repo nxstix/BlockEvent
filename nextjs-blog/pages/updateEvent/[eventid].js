@@ -61,7 +61,7 @@ function UpdateEvent({ event }) {
         const { title, description, location, date, price, maxPaxEvent, ipfs } = data;
         console.log(data)
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/events/${event.id}`, {
+            const response = await fetch(`${process.env.VERCEL_URL}/api/events/${event.id}`, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -185,7 +185,7 @@ function UpdateEvent({ event }) {
 export async function getServerSideProps(context) {
     const { eventid } = context.query
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/events/${eventid}`);
+        const response = await fetch(`${process.env.VERCEL_URL}/api/events/${eventid}`);
         if (!response.ok) {
             throw new Error("Failed to fetch events here");
         }

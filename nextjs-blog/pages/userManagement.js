@@ -11,7 +11,7 @@ import bcrypt from "bcryptjs"
 export async function getServerSideProps(context) {
     const session = await getSession(context)
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users`);
+        const response = await fetch(`${process.env.VERCEL_URL}/api/users`);
         if (!response.ok) {
             console.log(await response.json());
             throw new Error("Failed to fetch users");
@@ -70,7 +70,7 @@ function UserManagement({ users }) {
         }
 
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/${user.id}`, {
+            const response = await fetch(`${process.env.VERCEL_URL}/api/users/${user.id}`, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -98,7 +98,7 @@ function UserManagement({ users }) {
     }
 
     async function onDelete(userid) {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/${userid}`, {
+        const response = await fetch(`${process.env.VERCEL_URL}/api/users/${userid}`, {
             headers: {
                 'Content-Type': 'application/json',
             },

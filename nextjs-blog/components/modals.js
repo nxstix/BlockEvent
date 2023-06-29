@@ -49,7 +49,7 @@ export default function LoginModal() {
 
     async function handleRegistration(data) {
         const { email, password, firstName, lastName, birthdate } = data;
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users`, {
+        const response = await fetch(`${process.env.VERCEL_URL}/api/users`, {
             method: 'POST',
             body: JSON.stringify({
                 firstName,
