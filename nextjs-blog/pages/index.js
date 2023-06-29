@@ -25,10 +25,10 @@ export default function Home({ events, sortList }) {
             Buy, trade and store safely in your wallet
           </h5>
         </div>
-        <div tyle={{ marginLeft: "2rem" }}>
-          <h4><b style={{ marginLeft: "2rem" }}>Coming Up:</b></h4>
-          <EventList events={sortList} />
-        </div>
+        // <div tyle={{ marginLeft: "2rem" }}>
+        //   <h4><b style={{ marginLeft: "2rem" }}>Coming Up:</b></h4>
+        //   <EventList events={sortList} />
+        // </div>
         <div style={{ marginTop: "1rem" }}>
           <h4><b style={{ marginLeft: "2rem" }}>Popular:</b></h4><br></br>
           <EventList events={events} />
@@ -45,13 +45,13 @@ export async function getServerSideProps() {
       throw new Error("Failed to fetch events");
     }
     const events = await response.json();
-    let sortList = [...events]; // Create a copy of the events array
+    // let sortList = [...events]; // Create a copy of the events array
 
-    sortList = sortList.sort((a, b) => new Date(a.dateString) - new Date(b.dateString));
+    // sortList = sortList.sort((a, b) => new Date(a.dateString) - new Date(b.dateString));
     return {
       props: {
         events,
-        sortList
+        // sortList
       },
     };
   } catch (error) {
@@ -59,7 +59,7 @@ export async function getServerSideProps() {
     return {
       props: {
         events: null,
-        sortList
+        // sortList
       },
     };
   }
