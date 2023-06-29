@@ -8,7 +8,7 @@ import { useSession } from 'next-auth/react';
 
 export async function getServerSideProps() {
     try {
-        const response = await fetch("http://localhost:3000/api/events");
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/events`);
         if (!response.ok) {
             throw new Error("Failed to fetch events");
         }
@@ -45,7 +45,7 @@ function EventManagement({ events }) {
     const [eventSel, setEventSel] = useState(events[1]);
 
     async function onDelete(eventid) {
-        const response = await fetch(`http://localhost:3000/api/events/${eventid}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/events/${eventid}`, {
             headers: {
                 'Content-Type': 'application/json',
             },
