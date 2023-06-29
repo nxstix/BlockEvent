@@ -70,7 +70,7 @@ function UserManagement({ users }) {
         }
 
         try {
-            const response = await fetch(`http://localhost:3000/api/users/${user.id}`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/${user.id}`, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -98,7 +98,7 @@ function UserManagement({ users }) {
     }
 
     async function onDelete(userid) {
-        const response = await fetch(`http://localhost:3000/api/users/${userid}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/${userid}`, {
             headers: {
                 'Content-Type': 'application/json',
             },
