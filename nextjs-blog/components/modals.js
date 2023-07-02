@@ -1,7 +1,6 @@
 import Button from 'react-bootstrap/Button';
-import { signIn, getProviders } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 import { useSession, signOut } from "next-auth/react";
-import { Web3Button } from '@web3modal/react';
 import { useWeb3ModalTheme } from '@web3modal/react';
 import { disconnect } from '@wagmi/core'
 import Form from 'react-bootstrap/Form';
@@ -10,6 +9,7 @@ import { useForm } from 'react-hook-form'
 import React, { useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
+import Web3Modal from "./Web3Modal"
 
 
 export default function LoginModal() {
@@ -44,7 +44,7 @@ export default function LoginModal() {
     }
     const handleLogout = async () => {
         await disconnect()
-        await signOut({ callbackUrl: `${window.location.origin}`});
+        await signOut({ callbackUrl: `${window.location.origin}` });
     }
 
     async function handleRegistration(data) {
@@ -95,6 +95,7 @@ export default function LoginModal() {
         }
     }
 
+    console.log(showConnectWallet)
     return (
         <>
             <LoginLogoutButton handleShow={handleShow} />
@@ -109,37 +110,9 @@ export default function LoginModal() {
 
                 </Modal.Body>
             </Modal>
-            <Web3Modal />
+            <Web3Modal showConnectWallet={showConnectWallet} setShowConnectWallet={setShowConnectWallet} />
         </>
     )
-
-    function Web3Modal() {
-        return (
-            <Modal show={showConnectWallet} onHide={() => setShowConnectWallet(false)} >
-                <Modal.Header closeButton>
-                    <Modal.Title>Connect Wallet</Modal.Title>
-                </Modal.Header>
-                <Modal.Body className="text-center">
-                    <p>
-                        To access all features, please connect your wallet.
-                    </p>
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '10px 0' }}>
-                        <p style={{ fontSize: '0.8rem', marginBottom: '10px' }}></p>
-                        <Web3Button onClick={() => setShowConnectWallet(false)} />
-                    </div>
-                </Modal.Body>
-                <Modal.Footer>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <p style={{ fontSize: '0.8rem', marginRight: '10px' }}>
-                            If you don't have a wallet, we recommend downloading the
-                            <a href="https://metamask.io/" target="_blank" rel="noopener noreferrer"> MetaMask </a>
-                            app.
-                        </p>
-                    </div>
-                </Modal.Footer>
-            </Modal>
-        )
-    }
 
     function LoginLogoutButton() {
         const { data: session } = useSession();
@@ -150,7 +123,7 @@ export default function LoginModal() {
                         Logout
                     </Button>
                     :
-                    <Button onClick={handleShow} variant='secondary' size="sm"className="me-2 shadow-lg">
+                    <Button onClick={handleShow} variant='secondary' size="sm" className="me-2 shadow-lg">
                         Login
                     </Button>
                 }
@@ -205,7 +178,6 @@ export default function LoginModal() {
             birthdate: yup.date().required("A birthdate is required").typeError("A birthdate is required").min(new Date("1900-01-01"), "You must be be alive")
         })
         const { register, handleSubmit, watch, formState: { errors } } = useForm({ resolver: yupResolver(schema) })
-        console.log(errors)
         const onSubmit = (data) => {
             handleSubmit(handleRegistration)(data);
         };

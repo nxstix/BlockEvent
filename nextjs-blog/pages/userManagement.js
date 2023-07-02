@@ -17,7 +17,7 @@ export async function getServerSideProps(context) {
             throw new Error("Failed to fetch users");
         }
         let users = await response.json();
-        users = users.filter(user => user.id !== session.session.user._id);
+        users = users.filter(user => user.id !== session.session.user.id);
         return {
             props: {
                 users,
@@ -35,6 +35,7 @@ export async function getServerSideProps(context) {
 
 
 function UserManagement({ users }) {
+    console.log(users)
     const router = useRouter();
     const [showUpdate, setShowUpdate] = useState(false);
 
@@ -112,16 +113,16 @@ function UserManagement({ users }) {
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '2rem' }}>
             <Modal show={showDelete} onHide={() => setShowDelete(false)}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Are you sure you want to delete {userSel.firstName}?</Modal.Title>
+                    <Modal.Title>Are you sure you want to delete {userSel?.firstName}?</Modal.Title>
                 </Modal.Header>
                 <Modal.Body style={{ display: "flex", justifyContent: "right" }}>
                     <Button style={{ marginRight: "1rem" }} onClick={() => setShowDelete(false)} size="sm" variant="dark">Cancel</Button>
-                    <Button onClick={() => { onDelete(userSel.id); setShowDelete(false); }} size="sm" variant="danger">Delete</Button>
+                    <Button onClick={() => { onDelete(userSel?.id); setShowDelete(false); }} size="sm" variant="danger">Delete</Button>
                 </Modal.Body>
             </Modal>
             <Modal show={showUpdate} onHide={handleCloseUpdate}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Edit User {userSel.firstName}</Modal.Title>
+                    <Modal.Title>Edit User {userSel?.firstName}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <UpdateUser user={userSel} updateUser={onUpdate} />
@@ -131,28 +132,32 @@ function UserManagement({ users }) {
                 <Card.Body>
                     <h4><b style={{ marginLeft: "2rem", paddingTop: "1rem" }}>User management</b></h4>
                     <div style={{ position: "relative", maxWidth: "100%" }}>
-                        <div
-                            style={{ display: "flex", flexFlow: "row wrap", scrollBehavior: "smooth", WebkitOverflowScrolling: "touch", paddingBottom: "4rem", display: 'flex', justifyContent: 'center' }}>
-                            {users.map((user) => (
-                                <Card key={user.id} border="light" className="shadow-lg" style={{ fontSize: "0.8rem", width: '20%', color: 'rgb(0,0,0)', margin: '1rem' }}>
-                                    <Card.Body>
-                                        <p ><strong>Email:</strong> {user.email}</p>
-                                        <p ><strong>Firstname:</strong> {user.firstName}</p>
-                                        <p ><strong>Surname:</strong> {user.lastName}</p>
-                                        <p ><strong>Birthdate:</strong> {dateToString(user.birthdate)}</p>
-                                        <p ><strong>Admin:</strong> {user.isAdministrator ? 'yes' : 'no'}</p>
-                                        <p ><strong>Eventmanager:</strong> {user.isEventmanager ? 'yes' : 'no'}</p>
-                                    </Card.Body>
-                                    <div style={{ display: 'flex', justifyContent: 'right', padding: "0.5rem" }}>
-                                        <Button style={{ marginRight: "0.5rem" }} size="sm" variant="warning" onClick={() => { setShowUpdate(true); setUserSel(user); }}>
-                                            Edit
-                                        </Button>
-                                        <Button onClick={() => { setShowDelete(true); setUserSel(user); }} size="sm" variant="danger">
-                                            Delete
-                                        </Button>
-                                    </div>
-                                </Card>
-                            ))}
+                        <div style={{ display: "flex", flexFlow: "row wrap", scrollBehavior: "smooth", WebkitOverflowScrolling: "touch", paddingBottom: "4rem", display: 'flex', justifyContent: 'center' }}>
+                            {users.length !== 0 ? (
+                                users.map((user) => (
+                                    <Card key={user.id} border="light" className="shadow-lg" style={{ fontSize: "0.8rem", width: '20%', color: 'rgb(0,0,0)', margin: '1rem' }}>
+                                        <Card.Body>
+                                            <p ><strong>Email:</strong> {user.email}</p>
+                                            <p ><strong>Firstname:</strong> {user.firstName}</p>
+                                            <p ><strong>Surname:</strong> {user.lastName}</p>
+                                            <p ><strong>Birthdate:</strong> {dateToString(user.birthdate)}</p>
+                                            <p ><strong>Admin:</strong> {user.isAdministrator ? 'yes' : 'no'}</p>
+                                            <p ><strong>Eventmanager:</strong> {user.isEventmanager ? 'yes' : 'no'}</p>
+                                        </Card.Body>
+                                        <div style={{ display: 'flex', justifyContent: 'right', padding: "0.5rem" }}>
+                                            <Button style={{ marginRight: "0.5rem" }} size="sm" variant="warning" onClick={() => { setShowUpdate(true); setUserSel(user); }}>
+                                                Edit
+                                            </Button>
+                                            <Button onClick={() => { setShowDelete(true); setUserSel(user); }} size="sm" variant="danger">
+                                                Delete
+                                            </Button>
+                                        </div>
+                                    </Card>
+                                )))
+                                :
+                                (
+                                    <div>No users found</div>
+                                )}
                         </div>
                     </div>
                 </Card.Body>

@@ -12,6 +12,7 @@ import { Dropdown } from 'react-bootstrap';
 import { useAccount } from 'wagmi';
 import profilePic from './images/user.png';
 import managmentPic from './images/folder-management.png';
+import ticketPic from './images/tickets.png';
 
 import { Web3Button } from '@web3modal/react';
 import { useWeb3ModalTheme } from '@web3modal/react';
@@ -28,13 +29,13 @@ const Header = () => {
 
   async function fetchAdress(address) {
     if (session) {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/${session.session.user._id}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/${session.session.user.id}`, {
         headers: {
           'Content-Type': 'application/json',
         },
         method: 'PUT',
         body: JSON.stringify({
-          id: session.session.user._id,
+          id: session.session.user.id,
           walletAddress: address,
         }),
       });
@@ -92,8 +93,8 @@ const Header = () => {
     if (session.session.user.isAdministrator) {
       dynamicDropdown =
         <Dropdown>
-          <Dropdown.Toggle size="sm" variant="secondary" id="dropdown-basic">
-            <img src={managmentPic.src} width="25" className="d-inline-block align-top" alt="managmentPic" style={{ paddingRight: '0.3rem'}}/>
+          <Dropdown.Toggle size="sm" variant="outline-secondary" id="dropdown-basic">
+            <img src={managmentPic.src} width="25" className="d-inline-block align-top" alt="managmentPic" style={{ paddingRight: '0.3rem' }} />
           </Dropdown.Toggle>
           <Dropdown.Menu>
             <Dropdown.Item href="/eventManagement">
@@ -171,7 +172,7 @@ const Header = () => {
                 </Link>
                 <Link href="/userTickets">
                   <Button size="sm" variant="outline-secondary" style={{ marginRight: '10px' }}>
-                    My Tickets
+                    <img src={ticketPic.src} width="25" className="d-inline-block align-top" alt="managmentPic" style={{ paddingRight: '0.3rem' }} />
                   </Button>
                 </Link>
                 {dynamicDropdown}

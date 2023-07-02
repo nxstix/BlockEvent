@@ -33,7 +33,7 @@ async function getEvents() {
         }
         let allEvents = [];
         Object.values(events).forEach(event => {
-            const { id, title, description, location, date, duration, price, attendees, createdAt, ipfs, creatorID } = event;
+            const { id, title, description, location, date, duration, price, attendees, createdAt, ipfs } = event;
             const dateString = dateAndTimeToString(date);
             const createdAtString = dateAndTimeToString(createdAt);
 
@@ -41,7 +41,7 @@ async function getEvents() {
             const imageData = event.image;
             const image = imageData ? `data:image/jpeg;base64,${imageData}` : null;
 
-            allEvents.push({ id, title, description, location, dateString, duration, price, image, attendees, createdAtString, ipfs, creatorID });
+            allEvents.push({ id, title, description, location, dateString, duration, price, image, attendees, createdAtString, ipfs });
         });
         return allEvents;
     } catch (err) {
@@ -61,10 +61,8 @@ async function createEvent(eventResource) {
             price: eventResource.price,
             image: eventResource.image,
             maxPaxEvent: eventResource.maxPaxEvent,
-            ipfs: eventResource.ipfs,
-            creatorID: eventResource.creatorID
+            ipfs: eventResource.ipfs
         };
-        
 
         const event = await Event.create(eventData);
 
@@ -78,8 +76,7 @@ async function createEvent(eventResource) {
             price: eventResource.price,
             image: eventResource.image,
             maxPaxEvent: eventResource.maxPaxEvent,
-            ipfs: eventResource.ipfs,
-            creatorID: eventResource.creatorID
+            ipfs: eventResource.ipfs
         };
     } catch (err) {
         if (err.code === 11000 && err.keyPattern && err.keyValue) {
@@ -93,8 +90,6 @@ async function createEvent(eventResource) {
         }
     }
 }
-
-
 
 async function updateEvent(eventResource) {
     if (!eventResource.id) {
@@ -113,7 +108,7 @@ async function updateEvent(eventResource) {
         }
         eventResource.attendees = event.attendees;
     }
-    await Event.updateOne({ _id: eventResource.id }, eventResource).exec();
+    await Event.updateOne({ id: eventResource.id }, eventResource).exec();
     return event;
 }
 

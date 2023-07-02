@@ -67,7 +67,7 @@ function CreateEvent() {
                         image: base64Image, // Use the base64 image data
                         maxPaxEvent: Number(maxPaxEvent),
                         ipfs,
-                        creatorID: session.session.user._id
+                        creatorID: session.session.user.id
                     }),
                 });
                 router.push('/');

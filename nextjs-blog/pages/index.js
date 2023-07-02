@@ -59,7 +59,7 @@ export async function getServerSideProps() {
     return {
       props: {
         events: null,
-        sortList
+        sortList: null
       },
     };
   }

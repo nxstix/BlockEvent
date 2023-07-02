@@ -48,13 +48,13 @@ export default function Profile({ user }) {
         }
 
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/${user._id}`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/${user.id}`, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 method: 'PUT',
                 body: JSON.stringify({
-                    id: user._id,
+                    id: user.id,
                     firstName,
                     lastName,
                     birthdate,
@@ -92,7 +92,7 @@ export default function Profile({ user }) {
                 </Modal.Header>
                 <Modal.Body style={{ display: "flex", justifyContent: "right" }}>
                     <Button style={{ marginRight: "1rem" }} onClick={() => setShowDelete(false)} size="sm" variant="dark">Cancel</Button>
-                    <Button onClick={() => { onDelete(user._id); setShowDelete(false); }} size="sm" variant="danger">Delete</Button>
+                    <Button onClick={() => { onDelete(user.id); setShowDelete(false); }} size="sm" variant="danger">Delete</Button>
                 </Modal.Body>
             </Modal>
             <Modal show={showUpdate} onHide={handleCloseUpdate}>

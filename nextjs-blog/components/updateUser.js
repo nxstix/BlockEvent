@@ -106,7 +106,7 @@ export default function UpdateUserModal({ user, updateUser }) {
                         {...register("birthdate")} />
                     <p style={{ fontSize: "0.8rem", color: "red", marginTop: "0.5rem", paddingLeft: "0.5rem" }}>{errors.birthdate?.message}</p>
                 </Form.Group>
-                {!session.session.user._id === user._id &&
+                {session.session.user.id !== user.id &&
                     <>
                         <Form.Check
                             inline
@@ -137,7 +137,7 @@ export default function UpdateUserModal({ user, updateUser }) {
                         />
                     </>
                 }
-                {session.session.user._id === user._id &&
+                {session.session.user.id === user.id &&
                     <>
                         <div>
                             <Form.Text muted>

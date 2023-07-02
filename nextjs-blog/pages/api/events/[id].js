@@ -7,14 +7,14 @@ export default async function handler(req, res) {
     const { id } = req.query;
     const schema = z.object({
         id: z.string().min(24).max(24)
-        })
-    const response = schema.safeParse({id});
+    })
+    const response = schema.safeParse({ id });
 
     switch (req.method) {
         case 'GET':
-            try{
-                if(!response.success){
-                    const {errors} = response.error;
+            try {
+                if (!response.success) {
+                    const { errors } = response.error;
                     res.status(400).json(errors);
                     break;
                 }
@@ -24,13 +24,13 @@ export default async function handler(req, res) {
                 } else {
                     res.status(400).json(err)
                 }
-            }catch(err){
+            } catch (err) {
                 res.status(400).json({ Error: err.message });
             }
             break;
         case 'PUT':
-            if(!response.success){
-                const {errors} = response.error;
+            if (!response.success) {
+                const { errors } = response.error;
                 res.status(400).json(errors);
                 break;
             }
@@ -47,14 +47,14 @@ export default async function handler(req, res) {
                 attendees: z.string().array().optional(),
                 ipfs: z.string().optional(),
             })
-            try{
+            try {
                 const response2 = schema2.safeParse(req.body);
-                if(!response2.success){
-                    const {errors} = response2.error;
+                if (!response2.success) {
+                    const { errors } = response2.error;
                     res.status(400).json(errors);
                     break;
                 }
-                if(id != response2.data.id){
+                if (id != response2.data.id) {
                     throw new Error("Id in Url and body arent the same")
                 }
                 const updatedEvent = await updateEvent(response2.data);
@@ -63,20 +63,20 @@ export default async function handler(req, res) {
                 } else {
                     res.status(400).json(err);
                 }
-            }catch(err){
+            } catch (err) {
                 res.status(400).json({ Error: err.message });
             }
             break;
         case 'DELETE':
-            try{
-                if(!response.success){
-                    const {errors} = response.error;
+            try {
+                if (!response.success) {
+                    const { errors } = response.error;
                     res.status(400).json(errors);
                     break;
                 }
                 await deleteEvent(id);
-                 res.status(204).send({ Message: `Event with id: ${id} deleted` });
-            }catch(err){
+                res.status(204).send({ Message: `Event with id: ${id} deleted` });
+            } catch (err) {
                 res.status(400).json({ Error: err.message });
             }
             break;

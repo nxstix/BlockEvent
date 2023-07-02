@@ -37,12 +37,12 @@ function EventManagement({ events }) {
     const { data: session } = useSession();
     if (session) {
         if (session.session.user.isEventmanager) {
-            events = events.filter(event => event.creatorID === session.session.user._id);
+            events = events.filter(event => event.creatorID === session.session.user.id);
         }
     }
     const router = useRouter();
     const [showModal, setShowModal] = useState(false);
-    const [eventSel, setEventSel] = useState(events[1]);
+    const [eventSel, setEventSel] = useState(events[0]);
 
     async function onDelete(eventid) {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/events/${eventid}`, {
@@ -59,11 +59,11 @@ function EventManagement({ events }) {
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '2rem' }}>
             <Modal show={showModal} onHide={() => setShowModal(false)}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Are you sure you want to delete {eventSel.title}?</Modal.Title>
+                    <Modal.Title>Are you sure you want to delete {eventSel?.title}?</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
-                    <Button style={{ marginRight: "20rem" }} onClick={() => setShowModal(false)} size="sm" variant="danger">Cancel</Button>
-                    <Button onClick={() => { onDelete(eventSel.id); setShowModal(false); }} size="sm" variant="danger">Delete</Button>
+                <Modal.Body style={{ display: "flex", justifyContent: "right" }}>
+                    <Button style={{ marginRight: "1rem" }} onClick={() => setShowModal(false)} size="sm" variant="dark">Cancel</Button>
+                    <Button onClick={() => { onDelete(eventSel?.id); setShowModal(false); }} size="sm" variant="danger">Delete</Button>
                 </Modal.Body>
             </Modal>
             <Card border="light" className="shadow-lg" style={{ width: '80%', color: 'rgb(0,0,0)', marginTop: '1rem' }}>

@@ -46,7 +46,7 @@ export default NextAuth({
       delete user.password
       session.session.user =
       {
-        _id: user.id,
+        id: user.id,
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,

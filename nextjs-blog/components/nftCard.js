@@ -66,7 +66,7 @@ export function NFTCard({ nft }) {
 // export async function getServerSideProps(context){
 //   const session = getSession(context);
 //   try{
-//     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/${session.session.user._id}`);
+//     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/${session.session.user.id}`);
 //     if(!response.ok){
 //       throw new Error("Failed to fetch events here");
 //     }
