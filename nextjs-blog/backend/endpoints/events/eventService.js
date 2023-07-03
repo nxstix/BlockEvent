@@ -115,7 +115,24 @@ async function updateEvent(eventResource) {
         }
         eventResource.attendees = event.attendees;
     }
-    await Event.updateOne({ id: eventResource.id }, eventResource).exec();
+
+    if (eventResource.image) {
+        await Image.updateOne({ id: event?.image })
+    }
+
+    const eventData = {
+        id: eventResource?.id,
+        title: eventResource?.title,
+        description: eventResource?.description,
+        location: eventResource?.location,
+        date: new Date(eventResource?.date),
+        duration: eventResource?.duration,
+        price: eventResource?.price,
+        image: event?.image,
+        maxPaxEvent: eventResource?.maxPaxEvent,
+        ipfs: eventResource?.ipfs
+    };
+    await Event.updateOne({ id: eventResource.id }, eventData).exec();
     return event;
 }
 
@@ -124,6 +141,7 @@ async function deleteEvent(id) {
     if (!event) {
         throw new Error(`deleteEvent failed. No Event with the id: ${id}`);
     }
+    await Image.deleteOne(new ObjectId(event.image)).exec();
     await Event.deleteOne(new ObjectId(id)).exec();
 }
 
