@@ -1,11 +1,13 @@
 const Event = require("./eventModel");
+const Image = require("../images/imageModel")
+const { createImage } = require("../images/imageService")
 const { dateAndTimeToString } = require("../../utils/dateToString");
 const { ObjectId } = require('mongodb');
 
 async function getEvent(id) {
     const event = await Event.findById(id).exec();
-    const imageData = event.image;
-    const image = imageData ? `data:image/jpeg;base64,${imageData}` : null;
+    // const imageData = event.image;
+    // const image = imageData ? `data:image/jpeg;base64,${imageData}` : null;
     if (!event) {
         throw new Error("getEvent failed. Event not found");
     }
@@ -17,7 +19,7 @@ async function getEvent(id) {
         date: event.date,
         duration: event.duration,
         price: event.price,
-        image: image,
+        image: event.image,
         attendees: event.attendees,
         maxPaxEvent: event.maxPaxEvent,
         createdAt: dateAndTimeToString(event.createdAt),
@@ -33,13 +35,13 @@ async function getEvents() {
         }
         let allEvents = [];
         Object.values(events).forEach(event => {
-            const { id, title, description, location, date, duration, price, attendees, createdAt, ipfs } = event;
+            const { id, title, description, location, date, duration, price, image, attendees, createdAt, ipfs } = event;
             const dateString = dateAndTimeToString(date);
             const createdAtString = dateAndTimeToString(createdAt);
 
             // Assuming the image is stored as a base64-encoded string in the 'image' field
-            const imageData = event.image;
-            const image = imageData ? `data:image/jpeg;base64,${imageData}` : null;
+            // const imageData = event.image;
+            // const image = imageData ? `data:image/jpeg;base64,${imageData}` : null;
 
             allEvents.push({ id, title, description, location, dateString, duration, price, image, attendees, createdAtString, ipfs });
         });
@@ -51,6 +53,10 @@ async function getEvents() {
 
 async function createEvent(eventResource) {
     try {
+        let image = null
+        if (eventResource.image) {
+            image = await createImage(eventResource.image)
+        }
         const eventData = {
             id: eventResource.id,
             title: eventResource.title,
@@ -59,24 +65,25 @@ async function createEvent(eventResource) {
             date: new Date(eventResource.date),
             duration: eventResource.duration,
             price: eventResource.price,
-            image: eventResource.image,
+            image: image?.id,
             maxPaxEvent: eventResource.maxPaxEvent,
             ipfs: eventResource.ipfs
         };
 
         const event = await Event.create(eventData);
 
+
         return {
             id: event.id,
-            title: eventResource.title,
-            description: eventResource.description,
-            location: eventResource.location,
-            date: new Date(eventResource.date),
-            duration: eventResource.duration,
-            price: eventResource.price,
-            image: eventResource.image,
-            maxPaxEvent: eventResource.maxPaxEvent,
-            ipfs: eventResource.ipfs
+            title: event.title,
+            description: event.description,
+            location: event.location,
+            date: new Date(event.date),
+            duration: event.duration,
+            price: event.price,
+            image: event.image,
+            maxPaxEvent: event.maxPaxEvent,
+            ipfs: event.ipfs
         };
     } catch (err) {
         if (err.code === 11000 && err.keyPattern && err.keyValue) {

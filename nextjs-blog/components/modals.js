@@ -95,7 +95,6 @@ export default function LoginModal() {
         }
     }
 
-    console.log(showConnectWallet)
     return (
         <>
             <LoginLogoutButton handleShow={handleShow} />

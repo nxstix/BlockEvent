@@ -7,7 +7,7 @@ const EventSchema = new Schema({
     date: { type: Date, required: true },
     duration: { type: Number },
     price: { type: Number, required: true },
-    image: { type: String },
+    image: { type: Schema.Types.ObjectId, ref: "Image" },
     maxPaxEvent: { type: Number, required: true },
     attendees: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     ipfs: { type: String },

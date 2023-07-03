@@ -2,7 +2,7 @@ import Button from 'react-bootstrap/Button';
 import { useRouter } from 'next/router';
 import Card from 'react-bootstrap/Card';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { useSession } from 'next-auth/react';
 
@@ -13,27 +13,40 @@ export async function getServerSideProps() {
             throw new Error("Failed to fetch events");
         }
         const events = await response.json();
-        let sortList = [...events];
 
-        sortList = sortList.sort((a, b) => new Date(a.dateString) - new Date(b.dateString));
         return {
             props: {
-                events,
-                sortList
+                events
             },
         };
     } catch (error) {
-        console.error(error.message);
+        console.error(error);
         return {
             props: {
-                events: null,
-                sortList
+                events: null
             },
         };
     }
 }
 
+async function fetchImage(eventID) {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/images/${eventID}`)
+    const body = await response.json()
+    return body.imageData ? `data:image/jpeg;base64,${body.imageData}` : null;
+}
 function EventManagement({ events }) {
+    const [eventImages, setEventImages] = useState([]);
+
+    useEffect(() => {
+        const fetchEventImages = async () => {
+            const imagePromises = events.map(event => fetchImage(event.image));
+            const imageSources = await Promise.all(imagePromises);
+            setEventImages(imageSources);
+        };
+
+        fetchEventImages();
+    }, [events]);
+
     const { data: session } = useSession();
     if (session) {
         if (session.session.user.isEventmanager) {
@@ -42,7 +55,9 @@ function EventManagement({ events }) {
     }
     const router = useRouter();
     const [showModal, setShowModal] = useState(false);
-    const [eventSel, setEventSel] = useState(events[0]);
+
+    const [eventSel, setEventSel] = useState();
+
 
     async function onDelete(eventid) {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/events/${eventid}`, {
@@ -77,10 +92,10 @@ function EventManagement({ events }) {
                     <div style={{ position: "relative", maxWidth: "100%" }}>
                         <div
                             style={{ display: "flex", flexFlow: "row wrap", scrollBehavior: "smooth", WebkitOverflowScrolling: "touch", paddingBottom: "4rem", display: 'flex', justifyContent: 'center' }}>
-                            {events.map((event) => (
+                            {events.map((event, index) => (
                                 <Card key={event.id} border="light" className="shadow-lg" style={{ fontSize: "0.8rem", width: '20%', color: 'rgb(0,0,0)', margin: '1rem' }}>
                                     <Card.Body>
-                                        <img src={event.image} className="img img-responsive" />
+                                        <img src={eventImages[index]} alt="Event" className="img img-responsive" />
                                         <p ><strong>Title:</strong></p>
                                         <p>{event.title}</p>
                                         <p ><strong>Location:</strong></p>
