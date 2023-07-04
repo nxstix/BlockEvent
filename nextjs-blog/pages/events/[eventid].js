@@ -59,8 +59,22 @@ export default function eventDetails({ event }) {
       setPrice(price.toString());
     }
   }
-  React.useEffect(() => { setEthPrice(); }, [isSuccessRound, isSuccessdecimals]);
-  React.useEffect(() => { if (isSuccess == true) { setShow(true); setShowModal(false); } }, [isSuccess]);
+
+  const [eventImage, setEventImage] = useState([]);
+  useEffect(() => { setEthPrice(); }, [isSuccessRound, isSuccessdecimals]);
+  useEffect(() => { if (isSuccess == true) { setShow(true); setShowModal(false); } }, [isSuccess]);
+  useEffect(() => {
+    const fetchEventImage = async () => {
+      setEventImage(await fetchImage(event.image))
+    }
+    fetchEventImage();
+  }, [event]);
+
+  async function fetchImage(eventID) {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/images/${eventID}`)
+    const body = await response.json()
+    return body.imageData ? `data:image/jpeg;base64,${body.imageData}` : null;
+  }
 
   if (!event) {
     return <div>Not found</div>
@@ -87,7 +101,7 @@ export default function eventDetails({ event }) {
             </Modal.Body>
           </Modal>
           <Card className="shadow-lg" style={{ marginTop: "4rem" }}>
-            <Card.Img style={{ objectFit: "cover", objectPosition: "center", height: "33rem" }} variant="top" src={event.image} />
+            <Card.Img style={{ objectFit: "cover", objectPosition: "center", height: "33rem" }} variant="top" src={eventImage} />
             <Card.Body>
               <Card style={{ padding: "1rem" }} className="shadow-lg">
                 <Card.Title><b>{event.title}</b></Card.Title>

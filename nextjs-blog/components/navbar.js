@@ -89,7 +89,6 @@ const Header = () => {
 
   let dynamicDropdown
   if (session) {
-
     if (session.session.user.isAdministrator) {
       dynamicDropdown =
         <Dropdown>
