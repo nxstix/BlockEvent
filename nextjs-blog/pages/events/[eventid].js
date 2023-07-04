@@ -11,6 +11,7 @@ import Modal from 'react-bootstrap/Modal';
 import { Web3Button } from '@web3modal/react';
 import { useSession } from 'next-auth/react';
 const { dateAndTimeToString } = require("../../backend/utils/dateToString");
+import fetchImage from '../../backend/utils/fetchImage';
 
 
 export default function eventDetails({ event }) {
@@ -47,7 +48,6 @@ export default function eventDetails({ event }) {
     onError(error) {
       setShowModal(false);
       setShowError(true);
-      console.log(weiPrice)
     }
   })
 
@@ -60,7 +60,7 @@ export default function eventDetails({ event }) {
     }
   }
 
-  const [eventImage, setEventImage] = useState([]);
+  const [eventImage, setEventImage] = useState();
   useEffect(() => { setEthPrice(); }, [isSuccessRound, isSuccessdecimals]);
   useEffect(() => { if (isSuccess == true) { setShow(true); setShowModal(false); } }, [isSuccess]);
   useEffect(() => {
@@ -70,11 +70,6 @@ export default function eventDetails({ event }) {
     fetchEventImage();
   }, [event]);
 
-  async function fetchImage(eventID) {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/images/${eventID}`)
-    const body = await response.json()
-    return body.imageData ? `data:image/jpeg;base64,${body.imageData}` : null;
-  }
 
   if (!event) {
     return <div>Not found</div>

@@ -35,7 +35,6 @@ export async function getServerSideProps(context) {
 
 
 function UserManagement({ users }) {
-    console.log(users)
     const router = useRouter();
     const [showUpdate, setShowUpdate] = useState(false);
 

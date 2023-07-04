@@ -117,7 +117,7 @@ async function updateEvent(eventResource) {
     }
 
     if (eventResource.image) {
-        await Image.updateOne({ id: event?.image })
+        await Image.updateOne({ _id: event?.image }, { imageData: eventResource.image }).exec()
     }
 
     const eventData = {
@@ -132,7 +132,8 @@ async function updateEvent(eventResource) {
         maxPaxEvent: eventResource?.maxPaxEvent,
         ipfs: eventResource?.ipfs
     };
-    await Event.updateOne({ id: eventResource.id }, eventData).exec();
+    const result = await Event.updateOne({ _id: eventResource?.id }, eventData).exec();
+    console.log(result)
     return event;
 }
 
@@ -141,7 +142,7 @@ async function deleteEvent(id) {
     if (!event) {
         throw new Error(`deleteEvent failed. No Event with the id: ${id}`);
     }
-    await Image.deleteOne(new ObjectId(event.image)).exec();
+    await Image.deleteOne(event.image).exec();
     await Event.deleteOne(new ObjectId(id)).exec();
 }
 

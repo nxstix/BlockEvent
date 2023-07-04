@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from "react";
 import EventCard from "./eventCard";
-
-async function fetchImage(eventID) {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/images/${eventID}`)
-    const body = await response.json()
-    return body.imageData ? `data:image/jpeg;base64,${body.imageData}` : null;
-}
+import fetchImage from "../backend/utils/fetchImage";
 
 function EventList({ events }) {
     const [eventImages, setEventImages] = useState([]);
