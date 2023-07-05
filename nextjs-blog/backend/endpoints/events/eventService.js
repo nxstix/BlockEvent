@@ -35,7 +35,7 @@ async function getEvents() {
         }
         let allEvents = [];
         Object.values(events).forEach(event => {
-            const { id, title, description, location, date, duration, price, image, attendees, createdAt, ipfs } = event;
+            const { id, title, description, location, date, duration, price, image, attendees, creatorID, createdAt, ipfs } = event;
             const dateString = dateAndTimeToString(date);
             const createdAtString = dateAndTimeToString(createdAt);
 
@@ -43,7 +43,7 @@ async function getEvents() {
             // const imageData = event.image;
             // const image = imageData ? `data:image/jpeg;base64,${imageData}` : null;
 
-            allEvents.push({ id, title, description, location, dateString, duration, price, image, attendees, createdAtString, ipfs });
+            allEvents.push({ id, title, description, location, dateString, duration, price, image, attendees, creatorID, createdAtString, ipfs });
         });
         return allEvents;
     } catch (err) {
@@ -57,6 +57,7 @@ async function createEvent(eventResource) {
         if (eventResource.image) {
             image = await createImage(eventResource.image)
         }
+        console.log(eventResource)
         const eventData = {
             id: eventResource.id,
             title: eventResource.title,
@@ -66,6 +67,7 @@ async function createEvent(eventResource) {
             duration: eventResource.duration,
             price: eventResource.price,
             image: image?.id,
+            creatorID: eventResource.creatorID,
             maxPaxEvent: eventResource.maxPaxEvent,
             ipfs: eventResource.ipfs
         };
