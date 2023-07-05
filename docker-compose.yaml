@@ -1,0 +1,30 @@
+version: '1.0'
+
+services:
+  mongodb:
+    image: mongo:5.0.2
+    restart: unless-stopped
+    env_file: ./nextjs-blog/.env
+    ports:
+      - 27017:27017
+    networks:
+      - net_backend
+
+  backend:
+    depends_on:
+      - mongodb
+    build: ./nextjs-blog
+    container_name: nextjs
+    env_file:
+      - ./nextjs-blog/.env
+    ports:
+      - 3000:3000
+    environment:
+      - DB_HOST=mongodb
+    stdin_open: true
+    tty: true
+    networks:
+      - net_backend
+
+networks:
+  net_backend:

@@ -17,7 +17,7 @@ export default function Home({ events, sortList }) {
       <main>
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", textAlign: "center", margin: "3rem" }}>
           <h4>
-            <b>
+            <b data-testid="headline">
               Unlock the future of event tickets with NFT's
             </b>
           </h4>

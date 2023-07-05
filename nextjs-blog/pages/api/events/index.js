@@ -17,6 +17,7 @@ export default async function handler(req, res) {
         case 'GET':
             try {
                 const events = await getEvents();
+                console.log("hier Events: ", events)
                 if (events.length === 0) {
                     await createMockEvents()
                     const mockEvents = await getEvents();
@@ -29,7 +30,7 @@ export default async function handler(req, res) {
                 }
             } catch (err) {
                 console.log("error")
-                res.status(400).json({ Error: "Hi" });
+                res.status(400).json({ Error: err });
             }
             break;
         case 'POST':

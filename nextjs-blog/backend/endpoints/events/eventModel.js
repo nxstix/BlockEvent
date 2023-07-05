@@ -1,3 +1,5 @@
+//wird für Tests benötigt
+
 const { Schema, model, models } = require('mongoose');
 
 const EventSchema = new Schema({

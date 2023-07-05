@@ -58,6 +58,7 @@ export default async function handler(req, res) {
                     throw new Error("Id in Url and body arent the same")
                 }
                 const updatedEvent = await updateEvent(response2.data);
+                console.log("hier ist updated Event: ", updatedEvent)
                 if (updatedEvent) {
                     res.status(200).json(updatedEvent);
                 } else {

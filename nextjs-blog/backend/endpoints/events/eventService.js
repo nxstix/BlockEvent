@@ -133,8 +133,8 @@ async function updateEvent(eventResource) {
         ipfs: eventResource?.ipfs
     };
     const result = await Event.updateOne({ _id: eventResource?.id }, eventData).exec();
-    console.log(result)
-    return event;
+    const updatedEvent = await Event.findById(eventResource.id);
+    return updatedEvent;
 }
 
 async function deleteEvent(id) {
@@ -142,7 +142,10 @@ async function deleteEvent(id) {
     if (!event) {
         throw new Error(`deleteEvent failed. No Event with the id: ${id}`);
     }
-    await Image.deleteOne(event.image).exec();
+    if (event.image) {
+        await Image.deleteOne(event.image).exec();
+    }
+
     await Event.deleteOne(new ObjectId(id)).exec();
 }
 

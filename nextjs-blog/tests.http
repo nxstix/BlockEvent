@@ -66,7 +66,7 @@ Content-Type: application/json
 GET http://localhost:3000/api/events/647d1dff1ab1cc9c8c4b5ea9
 
 ###
-PUT http://localhost:3000/api/events/6469eab9717057e6c64f849e
+PUT http://localhost:3000/api/events/64997e32af474161e37a6ef1
 Content-Type: application/json
 
 {
@@ -79,4 +79,4 @@ Content-Type: application/json
 GET http://localhost:3000/api/events/6469eab9717057e6c64f849e
 
 ###
-DELETE http://localhost:3000/api/events/6466328780e9a2f7970a4981
+DELETE http://localhost:3000/api/events/64997eb7af474161e37a6f1a

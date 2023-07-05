@@ -1,7 +1,12 @@
+//wird für Tests benötigt
+import { TextEncoder, TextDecoder } from 'util';
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
+
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-const mongoConnection = process.env.MONGO_URI;
+const mongoConnection = process.env.MONGO_URI
 
 async function connectMongo() {
   let db;

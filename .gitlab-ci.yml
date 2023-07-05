@@ -1,0 +1,15 @@
+image: node:16-alpine
+
+stages:
+  - test
+
+services:
+  - mongo
+
+test-job:
+  services:
+    - mongo
+  script:
+    - cd ./nextjs-blog
+    - npm install
+    - npm run coverage
