@@ -35,7 +35,7 @@ async function getUsers() {
         return allUsers
 
     } catch (err) {
-        console.log(err.message);
+        throw err;
     }
 }
 

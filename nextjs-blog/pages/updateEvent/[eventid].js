@@ -59,7 +59,6 @@ function UpdateEvent({ event }) {
 
     const onSubmit = async (data) => {
         const { title, description, location, date, price, maxPaxEvent, ipfs } = data;
-        console.log(data)
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/events/${event.id}`, {
                 headers: {
@@ -84,8 +83,6 @@ function UpdateEvent({ event }) {
         }
 
     };
-    console.log("date", new Date(event.date).toLocaleString())
-
 
     return (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', marginTop: '2rem' }}>

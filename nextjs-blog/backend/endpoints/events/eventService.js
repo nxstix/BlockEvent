@@ -6,8 +6,6 @@ const { ObjectId } = require('mongodb');
 
 async function getEvent(id) {
     const event = await Event.findById(id).exec();
-    // const imageData = event.image;
-    // const image = imageData ? `data:image/jpeg;base64,${imageData}` : null;
     if (!event) {
         throw new Error("getEvent failed. Event not found");
     }
@@ -35,19 +33,15 @@ async function getEvents() {
         }
         let allEvents = [];
         Object.values(events).forEach(event => {
-            const { id, title, description, location, date, duration, price, image, attendees, creatorID, createdAt, ipfs } = event;
+            const { id, title, description, location, date, duration, price, image, attendees, createdAt, ipfs } = event;
             const dateString = dateAndTimeToString(date);
             const createdAtString = dateAndTimeToString(createdAt);
 
-            // Assuming the image is stored as a base64-encoded string in the 'image' field
-            // const imageData = event.image;
-            // const image = imageData ? `data:image/jpeg;base64,${imageData}` : null;
-
-            allEvents.push({ id, title, description, location, dateString, duration, price, image, attendees, creatorID, createdAtString, ipfs });
+            allEvents.push({ id, title, description, location, dateString, duration, price, image, attendees, createdAtString, ipfs });
         });
         return allEvents;
     } catch (err) {
-        console.log(err.message);
+        throw err;
     }
 }
 
@@ -57,7 +51,6 @@ async function createEvent(eventResource) {
         if (eventResource.image) {
             image = await createImage(eventResource.image)
         }
-        console.log(eventResource)
         const eventData = {
             id: eventResource.id,
             title: eventResource.title,
@@ -67,7 +60,6 @@ async function createEvent(eventResource) {
             duration: eventResource.duration,
             price: eventResource.price,
             image: image?.id,
-            creatorID: eventResource.creatorID,
             maxPaxEvent: eventResource.maxPaxEvent,
             ipfs: eventResource.ipfs
         };

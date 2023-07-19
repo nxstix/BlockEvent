@@ -13,7 +13,6 @@ export async function getServerSideProps(context) {
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users`);
         if (!response.ok) {
-            console.log(await response.json());
             throw new Error("Failed to fetch users");
         }
         let users = await response.json();

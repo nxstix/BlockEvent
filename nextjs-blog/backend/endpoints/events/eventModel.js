@@ -1,5 +1,6 @@
-//wird für Tests benötigt
-
+const { TextEncoder, TextDecoder } = require('util');
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
 const { Schema, model, models } = require('mongoose');
 
 const EventSchema = new Schema({

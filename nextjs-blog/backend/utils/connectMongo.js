@@ -1,5 +1,4 @@
-//wird für Tests benötigt
-import { TextEncoder, TextDecoder } from 'util';
+const { TextEncoder, TextDecoder } = require('util');
 global.TextEncoder = TextEncoder;
 global.TextDecoder = TextDecoder;
 
@@ -21,14 +20,12 @@ async function connectMongo() {
   }
 }
 
-//closes the mongoose connection
 async function closeMongo() {
   await mongoose.connection.close();
 }
 
 //clears all collections in the DB. Used for atomar testing.
 async function clearMongo() {
-
   const collections = Object.values(mongoose.connection.collections);
   for (const collection of collections) {
     await collection.deleteMany({});

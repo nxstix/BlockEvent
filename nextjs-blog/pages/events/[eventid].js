@@ -11,7 +11,6 @@ import Modal from 'react-bootstrap/Modal';
 import { Web3Button } from '@web3modal/react';
 import { useSession } from 'next-auth/react';
 const { dateAndTimeToString } = require("../../backend/utils/dateToString");
-import fetchImage from '../../backend/utils/fetchImage';
 
 
 export default function eventDetails({ event }) {
@@ -65,7 +64,8 @@ export default function eventDetails({ event }) {
   useEffect(() => { if (isSuccess == true) { setShow(true); setShowModal(false); } }, [isSuccess]);
   useEffect(() => {
     const fetchEventImage = async () => {
-      setEventImage(await fetchImage(event.image))
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/images/${event.image}`)
+      setEventImage(await response.json())
     }
     fetchEventImage();
   }, [event]);

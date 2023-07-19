@@ -64,7 +64,6 @@ export default function LoginModal() {
             },
         });
         if (response.ok) {
-            // registration successful
             await handleLogin({ email: email, password: password });
             handleClose();
             setShowConnectWallet(true)

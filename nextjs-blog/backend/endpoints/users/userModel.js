@@ -1,5 +1,6 @@
-//wird für Tests benötigt
-
+const { TextEncoder, TextDecoder } = require('util');
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
 const { Schema, model, models } = require('mongoose');
 const bcrypt = require("bcryptjs");
 
@@ -11,11 +12,10 @@ const UserSchema = new Schema({
     birthdate: { type: String, required: true },
     isAdministrator: { type: Boolean, default: false },
     isEventmanager: { type: Boolean, default: false },
-    walletAddress: {type: String},
+    walletAddress: { type: String },
 }, { timestamps: true }
 );
 
-// middelware function
 UserSchema.pre("save", async function (next) {
     try {
         if (!this.isModified("password")) {

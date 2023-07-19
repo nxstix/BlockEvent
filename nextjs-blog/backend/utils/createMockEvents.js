@@ -7,7 +7,6 @@ export async function createMockEvents() {
                 for (let i = 0; i < mockEvents.length; i++) {
                         await createEvent(mockEvents[i]);
                 }
-                console.log("Events successfully added")
         } catch (error) {
                 console.error('Error occurred while creating mock events:', error);
         }

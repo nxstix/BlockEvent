@@ -43,7 +43,6 @@ export default function senToFriend() {
     onError(error) {
       setShowModal(false);
       setShowError(true);
-      console.log(error);
     }
   })
 

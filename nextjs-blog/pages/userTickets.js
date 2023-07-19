@@ -23,7 +23,6 @@ function UserTickets() {
             const fetchURL = `${baseURL}?owner=${address}&contractAddresses\[\]=${contractAddress}`;
             nfts = await fetch(fetchURL, requestOptions).then(data => data.json())
             if (nfts) {
-                console.log("nfts:", nfts);
                 setNFTs(nfts.ownedNfts);
                 setIsLoading(false);
             } else {

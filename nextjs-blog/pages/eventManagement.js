@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { useSession } from 'next-auth/react';
-import fetchImage from '../backend/utils/fetchImage';
 
 export async function getServerSideProps() {
     try {
@@ -35,7 +34,11 @@ function EventManagement({ events }) {
 
     useEffect(() => {
         const fetchEventImages = async () => {
-            const imagePromises = events.map(event => fetchImage(event.image));
+            const imagePromises = events.map(async (event) => {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/images/${event.image}`)
+                const body = await response.json()
+                return body
+            });
             const imageSources = await Promise.all(imagePromises);
             setEventImages(imageSources);
         };

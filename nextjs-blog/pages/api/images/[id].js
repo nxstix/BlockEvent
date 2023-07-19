@@ -20,7 +20,7 @@ export default async function handler(req, res) {
                 }
                 const image = await getImage(id);
                 if (image) {
-                    res.status(200).json(image);
+                    res.status(200).json(`data:image/jpeg;base64,${image.imageData}`);
                 } else {
                     res.status(400).json(err)
                 }
