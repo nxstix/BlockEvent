@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import EventList from '../components/eventList';
+import notificationBanner from "../components/notificationBanner"
 
 export default function Home({ events, sortList }) {
 
@@ -15,6 +16,7 @@ export default function Home({ events, sortList }) {
       </Head>
 
       <main>
+        <notificationBanner></notificationBanner>
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", textAlign: "center", margin: "3rem" }}>
           <h4>
             <b data-testid="headline">
